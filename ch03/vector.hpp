@@ -10,18 +10,15 @@ private:
   int sz;
 
 public:
-  Vector(int s) : elem{new double[s]}, sz{s} {
-    for(int i = 0; i != s; ++i) elem[i] = 0;
-  }
-
-  Vector(std::initializer_list<double> lst)
-      : elem{new double[lst.size()]}, sz{static_cast<int>(lst.size())} {
-    std::copy(lst.begin(), lst.end(), elem);
-  }
-
+  Vector(int s);
+  Vector(std::initializer_list<double> lst);
   ~Vector() { delete[] elem; }
 
+  Vector(const Vector& a);
+  Vector& operator=(const Vector& a);
+
   double& operator[](int i);
+  const double& operator[](int i) const;
   int size() const;
 };
 
