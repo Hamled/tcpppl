@@ -1,39 +1,53 @@
 #include <algorithm>
+#include <stdexcept>
+#include <new>
 
 #include "vector.hpp"
 
-Vector::Vector(int s) : elem{new double[s]}, sz{s} {
+template <typename T>
+Vector<T>::Vector(int s) {
+  if(s < 0)
+    throw std::bad_array_new_length {};
+
+  sz = s;
+  elem = new T[sz];
+
   for (int i = 0; i != s; ++i)
     elem[i] = 0;
 }
 
-Vector::Vector(std::initializer_list<double> lst)
-  : elem{new double[lst.size()]}, sz{static_cast<int>(lst.size())} {
+template <typename T>
+Vector<T>::Vector(std::initializer_list<T> lst)
+  : elem{new T[lst.size()]}, sz{static_cast<int>(lst.size())} {
     std::copy(lst.begin(), lst.end(), elem);
 }
 
-Vector::Vector(const Vector& a)
-  : elem{new double[a.sz]}, sz{a.sz} {
+template <typename T>
+Vector<T>::Vector(const Vector<T>& a)
+  : elem{new T[a.sz]}, sz{a.sz} {
     std::copy(a.elem, a.elem + a.sz, elem);
 }
 
-Vector& Vector::operator=(const Vector &a) {
+template <typename T>
+Vector<T>& Vector<T>::operator=(const Vector<T>& a) {
   delete[] elem;
 
   sz = a.sz;
-  elem = new double[sz];
+  elem = new T[sz];
   std::copy(a.elem, a.elem + sz, elem);
 
   return *this;
 }
 
-Vector::Vector(Vector&& a)
+template <typename T>
+Vector<T>::Vector(Vector<T>&& a)
   : elem{a.elem}, sz{a.sz} {
     a.elem = nullptr;
     a.sz = 0;
 }
 
-Vector& Vector::operator=(Vector&& a) {
+template <typename T>
+Vector<T>& Vector<T>::operator=(Vector<T>&& a) {
   elem = a.elem;
   sz = a.sz;
 
@@ -43,14 +57,21 @@ Vector& Vector::operator=(Vector&& a) {
   return *this;
 }
 
-double& Vector::operator[](int i) {
+template <typename T>
+T& Vector<T>::operator[](int i) {
+  if (i < 0 || size() <= i)
+    throw std::out_of_range{"Vector::operator[]"};
   return elem[i];
 }
 
-const double& Vector::operator[](int i) const {
+template <typename T>
+const T& Vector<T>::operator[](int i) const {
+  if(i < 0 || size() <= i)
+    throw std::out_of_range {"Vector::operator[]"};
   return elem[i];
 }
 
-int Vector::size() const {
+template <typename T>
+int Vector<T>::size() const {
   return sz;
 }

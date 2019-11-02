@@ -4,24 +4,25 @@
 #include <initializer_list>
 #include <algorithm>
 
+template <typename T>
 class Vector {
 private:
-  double* elem;
+  T* elem;
   int sz;
 
 public:
   Vector(int s);
-  Vector(std::initializer_list<double> lst);
+  Vector(std::initializer_list<T> lst);
   ~Vector() { delete[] elem; }
 
-  Vector(const Vector& a);
-  Vector& operator=(const Vector& a);
+  Vector(const Vector<T>& a);
+  Vector<T>& operator=(const Vector<T>& a);
 
-  Vector(Vector&& a);
-  Vector& operator=(Vector&& a);
+  Vector(Vector<T>&& a);
+  Vector<T>& operator=(Vector<T>&& a);
 
-  double& operator[](int i);
-  const double& operator[](int i) const;
+  T& operator[](int i);
+  const T& operator[](int i) const;
   int size() const;
 };
 
