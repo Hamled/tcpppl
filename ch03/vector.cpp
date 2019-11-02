@@ -27,6 +27,22 @@ Vector& Vector::operator=(const Vector &a) {
   return *this;
 }
 
+Vector::Vector(Vector&& a)
+  : elem{a.elem}, sz{a.sz} {
+    a.elem = nullptr;
+    a.sz = 0;
+}
+
+Vector& Vector::operator=(Vector&& a) {
+  elem = a.elem;
+  sz = a.sz;
+
+  a.elem = nullptr;
+  a.sz = 0;
+
+  return *this;
+}
+
 double& Vector::operator[](int i) {
   return elem[i];
 }

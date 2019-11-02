@@ -17,6 +17,9 @@ public:
   Vector(const Vector& a);
   Vector& operator=(const Vector& a);
 
+  Vector(Vector&& a);
+  Vector& operator=(Vector&& a);
+
   double& operator[](int i);
   const double& operator[](int i) const;
   int size() const;
