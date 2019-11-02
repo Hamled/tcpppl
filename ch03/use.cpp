@@ -2,6 +2,7 @@
 
 #include "container.hpp"
 #include "vector_container.hpp"
+#include "list_container.hpp"
 
 void use(Container& c) {
   const int sz = c.size();
@@ -17,6 +18,14 @@ void g() {
   use(vc);
 }
 
+void h() {
+  List_container lc = {1,2,3,4,5,6,7,8,9};
+
+  use(lc);
+}
+
 int main() {
   g();
+  std::cout << "---" << '\n';
+  h();
 }
